@@ -129,20 +129,34 @@ class Detectron2LayoutModel(BaseLayoutModel):
         scores = instance_pred.scores.tolist()
         boxes = instance_pred.pred_boxes.tensor.tolist()
         labels = instance_pred.pred_classes.tolist()
-        masks = instance_pred.pred_masks.tolist()
 
-        for score, box, label, mask in zip(scores, boxes, labels, masks):
+        for score, box, label in zip(scores, boxes, labels):
             x_1, y_1, x_2, y_2 = box
 
 
             label = self.label_map.get(label, label)
 
             cur_block = TextBlock(
-                Rectangle(x_1, y_1, x_2, y_2), type=label, score=score, mask=mask
+                Rectangle(x_1, y_1, x_2, y_2), type=label, score=score
             )
             layout.append(cur_block)
 
         return layout
+
+    def gather_masks(self, outputs):
+        instance_pred = outputs["instances"].to("cpu")
+        labels = instance_pred.pred_classes.tolist()
+        masks = instance_pred.pred_masks.tolist()
+        out = [(labels[i], masks[i]) for i in range(len(labels))]
+        return out
+        
+
+
+    def masks(self, image):
+        image = self.image_loader(image)
+        outputs = self.model(image)
+        masks = self.gather_masks(outputs)
+        return masks
 
     def detect(self, image):
         """Detect the layout of a given image.

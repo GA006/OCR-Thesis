@@ -167,28 +167,6 @@ def _draw_box_outline_on_handler(draw, block, color, width):
         fill=color,
     )
 
-def _draw_mask_outline(draw, block, color, width):
-    mask = block.mask
-    coords = np.nonzero(mask)
-    coords = [(coords[1][i],coords[0][i]) for i in range(len(coords[0]))]
-
-    draw.line(
-        coords,
-        width=width,
-        fill=color,
-    )
-
-def _draw_transparent_mask(draw, block, color, alpha):
-    mask = block.mask
-    coords = np.nonzero(mask)
-    coords = [(coords[1][i],coords[0][i]) for i in range(len(coords[0]))]
-
-    draw.polygon(
-        coords,
-        _get_color_rgb(color, alpha),
-    )
-
-
 
 def _draw_transparent_box_on_handler(draw, block, color, alpha):
 

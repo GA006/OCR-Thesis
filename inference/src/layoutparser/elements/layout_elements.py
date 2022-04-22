@@ -1196,7 +1196,7 @@ class TextBlock(BaseLayoutElement):
     _features = ["text", "id", "type", "parent", "next", "score"]
 
     def __init__(
-        self, block, text=None, id=None, type=None, parent=None, next=None, score=None, mask=None
+        self, block, text=None, id=None, type=None, parent=None, next=None, score=None
     ):
 
         assert isinstance(block, BaseCoordElement)
@@ -1208,8 +1208,6 @@ class TextBlock(BaseLayoutElement):
         self.parent = parent
         self.next = next
         self.score = score
-        self.mask = mask
-
     @property
     def height(self):
         """
