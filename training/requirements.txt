@@ -1,6 +1,6 @@
 layoutparser
 funcy
-bs4
+beautifulsoup4
 scikit-learn
 imagesize
 tqdm

@@ -7,8 +7,8 @@ from PIL import Image
 import argparse
 from tqdm import tqdm
 import sys
-sys.path.append('..')
-import cocosplit
+# sys.path.append('..')
+# import cocosplit
 
 class NpEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -221,6 +221,12 @@ class PRIMADataset():
         
         return final_annotation
 
+def wrapper(prima_datapath='../data/prima', anno_savepath='../data/prima/annotations.json'):
+    dataset = PRIMADataset(prima_datapath)
+
+    res = dataset.convert_to_COCO(anno_savepath)
+
+
 
 parser = argparse.ArgumentParser()
 
@@ -239,10 +245,10 @@ if __name__ == "__main__":
     print(f"Saving the annotation to {args.anno_savepath}")
     res = dataset.convert_to_COCO(args.anno_savepath)
 
-    cocosplit.main(
-        args.anno_savepath,
-        split_ratio=0.8,
-        having_annotations=True, 
-        train_save_path=args.anno_savepath.replace('.json', '-train.json'),
-        test_save_path=args.anno_savepath.replace('.json', '-val.json'),
-        random_state=24)
+    # cocosplit.main(
+    #     args.anno_savepath,
+    #     split_ratio=0.8,
+    #     having_annotations=True, 
+    #     train_save_path=args.anno_savepath.replace('.json', '-train.json'),
+    #     test_save_path=args.anno_savepath.replace('.json', '-val.json'),
+    #     random_state=24)

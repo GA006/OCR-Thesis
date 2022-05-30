@@ -1,11 +1,5 @@
 #!/bin/bash
 
-cd ../tools
-
-python convert_prima_to_coco.py \
-    --prima_datapath ../data/prima \
-    --anno_savepath ../data/prima/annotations.json 
-
 python train_net.py \
     --dataset_name          prima-layout \
     --json_annotation_train ../data/prima/annotations-train.json \

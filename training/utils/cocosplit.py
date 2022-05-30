@@ -45,7 +45,8 @@ def main(annotation_path,
 
     # Images without annotations
     img_wo_ann = funcy.lremove(lambda i: i['id'] in ids_with_annotations, images)
-    tr_wo_ann, ts_wo_ann = train_test_split(img_wo_ann, train_size=split_ratio,
+    if img_wo_ann != []:
+        tr_wo_ann, ts_wo_ann = train_test_split(img_wo_ann, train_size=split_ratio,
                                             random_state=random_state)
 
     if having_annotations:
@@ -74,12 +75,13 @@ def main(annotation_path,
                                                        test_save_path))
 
 
-if __name__ == "__main__":
-    args = parser.parse_args()
 
-    main(args.annotation_path,
-         args.split_ratio,
-         args.having_annotations, 
-         args.train,
-         args.test,
-         random_state=24)
+# if __name__ == "__main__":
+#     args = parser.parse_args()
+
+#     main(args.annotation_path,
+#          args.split_ratio,
+#          args.having_annotations, 
+#          args.train,
+#          args.test,
+#          random_state=24)
