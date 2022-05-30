@@ -42,7 +42,8 @@ def _create_category(schema=0):
         categories = \
             [{"supercategory": "layout", "id": 0, "name": "Background"},
              {"supercategory": "layout", "id": 1, "name": "Paragraph"},
-             {"supercategory": "layout", "id": 2, "name": "Other"},]
+             {"supercategory": "layout", "id": 2, "name": "OtherText"},
+             {"supercategory": "layout", "id": 3, "name": "VisualFigure"},]
         
         find_categories = lambda name: \
             [val["id"] for val in categories if val['name'] == name][0]
@@ -50,23 +51,23 @@ def _create_category(schema=0):
         conversion = \
             {
                 'paragraph':        find_categories("Paragraph"),
-                'heading':          find_categories("Other"),
-                'header':           find_categories("Other"),
-                'footer':           find_categories("Other"),
-                'page-number':      find_categories("Other"),
-                'floating':         find_categories("Other"),
-                'credit':           find_categories("Other"),
-                'caption':          find_categories("Other"),
-                'drop-capital':     find_categories("Other"),
-                'TableRegion':      find_categories("Other"),
-                'MathsRegion':      find_categories("Other"),
-                'ChartRegion':      find_categories("Other"),
-                'GraphicRegion':    find_categories("Other"),
-                'ImageRegion':      find_categories("Other"),
-                'LineDrawingRegion':find_categories("Other"),
-                'SeparatorRegion':  find_categories("Other"),
-                'NoiseRegion':      find_categories("Other"),
-                'FrameRegion':      find_categories("Other"),
+                'heading':          find_categories("OtherText"),
+                'header':           find_categories("OtherText"),
+                'footer':           find_categories("OtherText"),
+                'page-number':      find_categories("OtherText"),
+                'floating':         find_categories("OtherText"),
+                'credit':           find_categories("OtherText"),
+                'caption':          find_categories("OtherText"),
+                'drop-capital':     find_categories("OtherText"),
+                'TableRegion':      find_categories("VisualFigure"),
+                'MathsRegion':      find_categories("VisualFigure"),
+                'ChartRegion':      find_categories("VisualFigure"),
+                'GraphicRegion':    find_categories("VisualFigure"),
+                'ImageRegion':      find_categories("VisualFigure"),
+                'LineDrawingRegion':find_categories("VisualFigure"),
+                'SeparatorRegion':  find_categories("VisualFigure"),
+                'NoiseRegion':      find_categories("VisualFigure"),
+                'FrameRegion':      find_categories("VisualFigure"),
             }
         
         return categories, conversion
