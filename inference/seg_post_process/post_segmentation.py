@@ -108,13 +108,15 @@ class PostProcessingSegmentation():
         
         return lay.Layout(bl)
 
-    def mask_other_regions(self):
+    def mask_other_regions(self, roi_index=1):
         draw = ImageDraw.Draw(self.image)
 
         for i in self.masks:
-            if i[0] == 2:
+            if i[0] != roi_index:
                 coords = np.nonzero(i[1])
-                coords = [(coords[1][i],coords[0][i]) for i in range(len(coords[0]))]
+                if len(coords[0]) == 0:
+                    continue
+                coords = [(coords[1][k],coords[0][k]) for k in range(len(coords[0]))]
                 draw.polygon(coords)
 
     def pipeline(self):
@@ -122,20 +124,17 @@ class PostProcessingSegmentation():
         text_blocks = lay.Layout([b for b in self.blocks if b.type=='Paragraph'])
         figure_blocks = lay.Layout([b for b in self.blocks if b.type=='Other'])
         self.blocks = lay.Layout([b for b in text_blocks if not any(b.is_in(b_fig) for b_fig in figure_blocks)])
-        self.blocks = lay.Layout([i.pad(left=15, right=15, top=15, bottom=15) for i in text_blocks])
+        if len(self.blocks) == 0:
+            raise Exception("NO TEXT BLOCKS")
+        self.blocks = lay.Layout([i.pad(left=15, right=15, top=50, bottom=50) for i in text_blocks])
+    
 
-        self.blocks = self.unions()
+        self.blocks = self.unions() #Choose threshold, otherwise use default
 
-        self.blocks = self.sorting()
+        self.blocks = self.sorting() #Choose threshold, otherwise use default
 
         self.blocks = self.left_to_right_overlap()
 
-        self.mask_other_regions()
+        self.mask_other_regions() #Choose the index of interest for you, otherwise use default
 
         return self.image, self.blocks
-
-
-
-
-
-
