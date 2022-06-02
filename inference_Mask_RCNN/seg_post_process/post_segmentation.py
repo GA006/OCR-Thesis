@@ -120,7 +120,7 @@ class PostProcessingSegmentation():
                 coords = [(coords[1][k],coords[0][k]) for k in range(len(coords[0]))]
                 draw.polygon(coords)
 
-    def pipeline(self, roi=1):
+    def pipeline(self, roi=1, threshold=500):
 
         text_blocks = lay.Layout([b for b in self.blocks if b.type==self.label_map[roi]])
         other_blocks = []
@@ -135,9 +135,9 @@ class PostProcessingSegmentation():
         self.blocks = lay.Layout([i.pad(left=15, right=15, top=50, bottom=50) for i in text_blocks])
     
 
-        self.blocks = self.unions()
+        self.blocks = self.unions(threshold)
 
-        self.blocks = self.sorting()
+        self.blocks = self.sorting(threshold)
 
         self.blocks = self.left_to_right_overlap()
 
