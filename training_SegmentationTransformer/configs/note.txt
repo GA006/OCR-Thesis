@@ -1,2 +1,0 @@
-Should download the configuration file corresponding to the model you download. You get them from here - https://github.com/fudan-zvg/SETR#main-results.
-In this Google Drive, you can find models with configs under configs/SETR
