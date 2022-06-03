@@ -1,0 +1,2 @@
+Should download the checkpoint file from https://github.com/fudan-zvg/SETR#main-results together with 
+its config file
