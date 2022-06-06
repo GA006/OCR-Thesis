@@ -31,7 +31,7 @@ class PostProcessingSegmentation():
 
         return iou
 
-    def unions(self, threshold=500):
+    def unions(self, threshold):
         unions = []
         disappear = []
         count = 1
@@ -57,7 +57,7 @@ class PostProcessingSegmentation():
         return lay.Layout(bl)
 
 
-    def sorting(self, threshold=500):
+    def sorting(self, threshold):
         bl = self.blocks
         arr_im = np.asarray(self.image)
 
@@ -120,24 +120,21 @@ class PostProcessingSegmentation():
                 coords = [(coords[1][k],coords[0][k]) for k in range(len(coords[0]))]
                 draw.polygon(coords)
 
-    def pipeline(self, roi=1, threshold=500):
+    def pipeline(self, roi=1, threshold_percent=0.2):
 
         text_blocks = lay.Layout([b for b in self.blocks if b.type==self.label_map[roi]])
-        other_blocks = []
-        for b in self.blocks:
-            if b.type != self.label_map[roi]:
-                other_blocks.append(b)
-        figure_blocks = lay.Layout(other_blocks)
-        # figure_blocks = lay.Layout([b for b in self.blocks if b.type=='Other'])
+        figure_blocks = lay.Layout([b for b in self.blocks if b.type!=self.label_map[roi]])
         self.blocks = lay.Layout([b for b in text_blocks if not any(b.is_in(b_fig) for b_fig in figure_blocks)])
+
         if len(self.blocks) == 0:
             raise Exception("NO TEXT BLOCKS")
         self.blocks = lay.Layout([i.pad(left=15, right=15, top=50, bottom=50) for i in text_blocks])
-    
 
-        self.blocks = self.unions(threshold)
+        x_size = np.asarray(self.image).shape[1]
 
-        self.blocks = self.sorting(threshold)
+        self.blocks = self.unions(x_size * threshold_percent)
+
+        self.blocks = self.sorting(x_size * threshold_percent)
 
         self.blocks = self.left_to_right_overlap()
 
