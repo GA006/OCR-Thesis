@@ -52,7 +52,7 @@ def remove_empty_rectangles(image, layout, threshold=50):
     
     return new_layout
 
-def mask_other_regions(image, blocks):
+def mask_other_regions(image, blocks): #not used in the solution
     draw = ImageDraw.Draw(image)
     for i in blocks:
         draw.rectangle([i.block.x_1, i.block.y_1, i.block.x_2, i.block.y_2], fill=(255,255,255))

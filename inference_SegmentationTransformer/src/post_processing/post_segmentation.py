@@ -28,7 +28,7 @@ class PostProcessingSegmentation():
 
         return iou
 
-    def unions(self, threshold=500):
+    def unions(self, threshold):
         unions = []
         disappear = []
         count = 1
@@ -54,7 +54,7 @@ class PostProcessingSegmentation():
         return lay.Layout(bl)
 
 
-    def sorting(self, threshold=500):
+    def sorting(self, threshold):
         bl = self.blocks
         arr_im = np.asarray(self.image)
 
@@ -107,16 +107,18 @@ class PostProcessingSegmentation():
         return lay.Layout(bl)
 
 
-    def pipeline(self, thres):
+    def pipeline(self, percent_threshold=0.2):
         
         if len(self.blocks) == 0:
             raise Exception("NO TEXT BLOCKS")
         
         self.blocks = lay.Layout([i.pad(left=15, right=15, top=50, bottom=50) for i in self.blocks])
-    
-        self.blocks = self.unions(thres)
 
-        self.blocks = self.sorting(thres)
+        width = np.asarray(self.image).shape[1]
+
+        self.blocks = self.unions(width * percent_threshold)
+
+        self.blocks = self.sorting(width * percent_threshold)
 
         self.blocks = self.left_to_right_overlap()
 
